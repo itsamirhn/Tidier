@@ -1,4 +1,4 @@
-import tidier
+from .utils import *
 import click
 
 
@@ -8,7 +8,7 @@ import click
               required=True,
               type=click.Path(
                   exists=True,
-                  path_type=tidier.Path
+                  path_type=Path
               ))
 @click.option("-o", "--output", "output_path",
               help="Output directory.",
@@ -16,7 +16,7 @@ import click
               type=click.Path(
                   file_okay=False,
                   writable=True,
-                  path_type=tidier.Path
+                  path_type=Path
               ))
 @click.option("-f", "--format", "format_pattern",
               help="Folders format.",
@@ -26,12 +26,26 @@ import click
               help="Move input instead of copy.",
               default=False,
               is_flag=True)
-def organize(input_path: tidier.Path, output_path: tidier.Path, format_pattern: str, should_move: bool):
-    tidier.organize(input_path, output_path, format_pattern, should_move)
+def main(input_path: Path, output_path: Path, format_pattern: str, should_move: bool):
+    files = []
+    if input_path.is_file():
+        files = [File(input_path)]
+    if input_path.is_dir():
+        files = find_sub_files(input_path)
+
+    for file in files:
+        path = file.organized_path(format_pattern, output_path)
+        path.mkdir(parents=True, exist_ok=True)
+        if should_move:
+            click.echo(f"[-] Moving {file.path} to {path}")
+            file.move(path)
+        else:
+            click.echo(f"[-] Copying {file.path} to {path}")
+            file.copy(path)
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    organize()
+    main()
 
 
