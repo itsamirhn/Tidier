@@ -41,7 +41,7 @@ def organize(input_path: Path, output_path: Path, format_pattern: str, should_mo
         if should_move:
             file.move(path)
         else:
-            file.copy()
+            file.copy(path)
 
 
 # Press the green button in the gutter to run the script.
