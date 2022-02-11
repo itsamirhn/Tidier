@@ -23,5 +23,8 @@ class File:
     def copy(self, path: Path):
         shutil.copy2(self.path, path)
 
+    def move(self, path: Path):
+        shutil.move(self.path, path)
+
     def __str__(self):
         return self.path.name

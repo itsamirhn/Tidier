@@ -24,7 +24,11 @@ from tidy import *
               help="Folders format.",
               default="%Y/%B/%d",
               show_default=True)
-def organize(input_path: Path, output_path: Path, format_pattern: str):
+@click.option("-m", "--move", "should_move",
+              help="Move input instead of copy.",
+              default=False,
+              is_flag=True)
+def organize(input_path: Path, output_path: Path, format_pattern: str, should_move: bool):
     files = []
     if input_path.is_file():
         files = [File(input_path)]
@@ -34,7 +38,10 @@ def organize(input_path: Path, output_path: Path, format_pattern: str):
     for file in files:
         path = file.organized_path(format_pattern, output_path)
         path.mkdir(parents=True, exist_ok=True)
-        file.copy(path)
+        if should_move:
+            file.move(path)
+        else:
+            file.copy()
 
 
 # Press the green button in the gutter to run the script.
