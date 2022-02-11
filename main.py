@@ -32,10 +32,9 @@ def main(input_path: Path, output_path: Path, format_pattern: str):
         files = Folder(input_path).sub_files()
 
     for file in files:
-        path = output_path / file.creation_date.strftime(format_pattern)
+        path = output_path / file.modified_date.strftime(format_pattern)
         path.mkdir(parents=True, exist_ok=True)
         file.copy(path)
-    click.echo(output_path)
 
 
 # Press the green button in the gutter to run the script.

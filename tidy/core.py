@@ -5,14 +5,14 @@ import datetime
 
 class File:
 
-    def __init__(self, path):
+    def __init__(self, path: Path):
         if not path.is_file():
             raise ValueError
         self.path = path
 
     @property
-    def creation_date(self):
-        ctime = datetime.datetime.fromtimestamp(self.path.stat().st_ctime)
+    def modified_date(self):
+        ctime = datetime.datetime.fromtimestamp(self.path.stat().st_mtime)
         return ctime
 
     def copy(self, path):
@@ -24,7 +24,7 @@ class File:
 
 class Folder:
 
-    def __init__(self, path, make=True):
+    def __init__(self, path: Path, make=True):
         if make:
             path.mkdir(parents=True, exist_ok=True)
         if not path.is_dir():
