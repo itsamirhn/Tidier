@@ -1,7 +1,5 @@
-from typing import Tuple
-
+import tidier
 import click
-from tidy import *
 
 
 @click.command()
@@ -10,7 +8,7 @@ from tidy import *
               required=True,
               type=click.Path(
                   exists=True,
-                  path_type=Path
+                  path_type=tidier.Path
               ))
 @click.option("-o", "--output", "output_path",
               help="Output directory.",
@@ -18,7 +16,7 @@ from tidy import *
               type=click.Path(
                   file_okay=False,
                   writable=True,
-                  path_type=Path
+                  path_type=tidier.Path
               ))
 @click.option("-f", "--format", "format_pattern",
               help="Folders format.",
@@ -28,20 +26,8 @@ from tidy import *
               help="Move input instead of copy.",
               default=False,
               is_flag=True)
-def organize(input_path: Path, output_path: Path, format_pattern: str, should_move: bool):
-    files = []
-    if input_path.is_file():
-        files = [File(input_path)]
-    if input_path.is_dir():
-        files = find_sub_files(input_path)
-
-    for file in files:
-        path = file.organized_path(format_pattern, output_path)
-        path.mkdir(parents=True, exist_ok=True)
-        if should_move:
-            file.move(path)
-        else:
-            file.copy(path)
+def organize(input_path: tidier.Path, output_path: tidier.Path, format_pattern: str, should_move: bool):
+    tidier.organize(input_path, output_path, format_pattern, should_move)
 
 
 # Press the green button in the gutter to run the script.
