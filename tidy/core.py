@@ -12,26 +12,16 @@ class File:
 
     @property
     def modified_date(self):
-        ctime = datetime.datetime.fromtimestamp(self.path.stat().st_mtime)
-        return ctime
+        mtime = datetime.datetime.fromtimestamp(self.path.stat().st_mtime)
+        return mtime
 
-    def copy(self, path):
+    def organized_path(self, format_pattern: str, root_path=Path('')):
+        mtime = self.modified_date
+        path = root_path / mtime.strftime(format_pattern)
+        return path
+
+    def copy(self, path: Path):
         shutil.copy2(self.path, path)
 
     def __str__(self):
         return self.path.name
-
-
-class Folder:
-
-    def __init__(self, path: Path, make=True):
-        if make:
-            path.mkdir(parents=True, exist_ok=True)
-        if not path.is_dir():
-            raise ValueError
-        self.path = path
-
-    def sub_files(self):
-        all_sub_paths = self.path.glob('**/*')
-        files = [File(path) for path in all_sub_paths if path.is_file()]
-        return files

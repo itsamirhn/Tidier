@@ -1,6 +1,7 @@
+from typing import Tuple
+
 import click
-from pathlib import Path
-from tidy import File, Folder
+from tidy import *
 
 
 @click.command()
@@ -13,7 +14,7 @@ from tidy import File, Folder
               ))
 @click.option("-o", "--output", "output_path",
               help="Output directory.",
-              default="output",
+              default="",
               type=click.Path(
                   file_okay=False,
                   writable=True,
@@ -22,23 +23,22 @@ from tidy import File, Folder
 @click.option("-f", "--format", "format_pattern",
               help="Folders format.",
               default="%Y/%B/%d",
-              show_default=True,
-              type=click.STRING)
-def main(input_path: Path, output_path: Path, format_pattern: str):
+              show_default=True)
+def organize(input_path: Path, output_path: Path, format_pattern: str):
     files = []
     if input_path.is_file():
         files = [File(input_path)]
     if input_path.is_dir():
-        files = Folder(input_path).sub_files()
+        files = find_sub_files(input_path)
 
     for file in files:
-        path = output_path / file.modified_date.strftime(format_pattern)
+        path = file.organized_path(format_pattern, output_path)
         path.mkdir(parents=True, exist_ok=True)
         file.copy(path)
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    main()
+    organize()
 
 
