@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from utils import *
 import click
 
@@ -26,12 +28,16 @@ import click
               help="Move input instead of copy.",
               default=False,
               is_flag=True)
-def main(input_path: Path, output_path: Path, format_pattern: str, should_move: bool):
+@click.option("-ep", "--exclude-patterns", "exclude_patterns",
+              help="Excluding patterns.",
+              default=(),
+              multiple=True)
+def main(input_path: Path, output_path: Path, format_pattern: str, should_move: bool, exclude_patterns: Tuple[str]):
     files = []
     if input_path.is_file():
         files = [File(input_path)]
     if input_path.is_dir():
-        files = find_sub_files(input_path)
+        files = find_sub_files(input_path, exclude_patterns)
 
     for file in files:
         path = output_path / file.format(format_pattern)
