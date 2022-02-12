@@ -6,14 +6,14 @@ import click
 
 @click.command()
 @click.option("-i", "--input", "input_path",
-              help="Input directory or file.",
+              help="Input directory or file",
               required=True,
               type=click.Path(
                   exists=True,
                   path_type=Path
               ))
 @click.option("-o", "--output", "output_path",
-              help="Output directory.",
+              help="Output directory",
               default="",
               type=click.Path(
                   file_okay=False,
@@ -21,15 +21,15 @@ import click
                   path_type=Path
               ))
 @click.option("-f", "--format", "format_pattern",
-              help="Folders format.",
+              help="Folders format",
               default="%Y/%B/%d/{type}",
               show_default=True)
 @click.option("-m", "--move", "should_move",
-              help="Move input instead of copy.",
+              help="Move input instead of copy",
               default=False,
               is_flag=True)
-@click.option("-ep", "--exclude-patterns", "exclude_patterns",
-              help="Excluding patterns.",
+@click.option("-e", "--exclude", "exclude_patterns",
+              help="Excluding patterns",
               default=(),
               multiple=True)
 def main(input_path: Path, output_path: Path, format_pattern: str, should_move: bool, exclude_patterns: Tuple[str]):
