@@ -1,4 +1,4 @@
-from .utils import *
+from utils import *
 import click
 
 
@@ -20,7 +20,7 @@ import click
               ))
 @click.option("-f", "--format", "format_pattern",
               help="Folders format.",
-              default="%Y/%B/%d",
+              default="%Y/%B/%d/{type}",
               show_default=True)
 @click.option("-m", "--move", "should_move",
               help="Move input instead of copy.",
@@ -34,7 +34,7 @@ def main(input_path: Path, output_path: Path, format_pattern: str, should_move: 
         files = find_sub_files(input_path)
 
     for file in files:
-        path = file.organized_path(format_pattern, output_path)
+        path = output_path / file.format(format_pattern)
         path.mkdir(parents=True, exist_ok=True)
         if should_move:
             click.echo(f"[-] Moving {file.path} to {path}")

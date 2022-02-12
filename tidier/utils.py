@@ -1,6 +1,6 @@
 from typing import List
 
-from .core import *
+from core import *
 
 
 def find_sub_files(path: Path) -> List[File]:
