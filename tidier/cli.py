@@ -24,15 +24,29 @@ import click
               help="Folders format",
               default="%Y/%B/%d/{type}",
               show_default=True)
-@click.option("-m", "--move", "should_move",
-              help="Move input instead of copy",
-              default=False,
-              is_flag=True)
 @click.option("-e", "--exclude", "exclude_patterns",
               help="Excluding patterns",
-              default=(),
+              default=[],
               multiple=True)
-def main(input_path: Path, output_path: Path, format_pattern: str, should_move: bool, exclude_patterns: Tuple[str]):
+@click.option("-m", "--move", "should_move",
+              help="Move input file(s) instead of copy",
+              default=False,
+              is_flag=True)
+@click.option("-a", "--all", "all_files",
+              help="Apply on all files including HIDDEN files",
+              default=False,
+              is_flag=True)
+def main(input_path: Path,
+         output_path: Path,
+         format_pattern: str,
+         exclude_patterns: Tuple[str],
+         should_move: bool,
+         all_files: bool):
+
+    exclude_patterns = list(exclude_patterns)
+    if not all_files:
+        exclude_patterns.append('**/.*')
+
     files = []
     if input_path.is_file():
         files = [File(input_path)]
