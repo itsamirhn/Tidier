@@ -1,1 +1,2 @@
 click==8.0.3
+jdatetime==3.8.2

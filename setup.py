@@ -12,6 +12,7 @@ setup(
     description='A tool for organizing files',
     install_requires=[
         'Click',
+        'jdatetime',
     ],
     entry_points={
         'console_scripts': [

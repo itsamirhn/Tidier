@@ -36,12 +36,17 @@ import click
               help="Apply on all files including HIDDEN files",
               default=False,
               is_flag=True)
+@click.option("-j", "--jalali", "jalali_date",
+              help="Use Jalali calendar",
+              default=False,
+              is_flag=True)
 def main(input_path: Path,
          output_path: Path,
          format_pattern: str,
          exclude_patterns: Tuple[str],
          should_move: bool,
-         all_files: bool):
+         all_files: bool,
+         jalali_date: bool):
 
     exclude_patterns = list(exclude_patterns)
     if not all_files:
@@ -54,7 +59,7 @@ def main(input_path: Path,
         files = find_sub_files(input_path, exclude_patterns)
 
     for file in files:
-        path = output_path / file.format(format_pattern)
+        path = output_path / file.format(format_pattern, jalali_date)
         path.mkdir(parents=True, exist_ok=True)
         if should_move:
             click.echo(f"[-] Moving {file.path} to {path}")

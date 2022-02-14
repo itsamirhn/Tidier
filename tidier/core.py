@@ -1,6 +1,7 @@
 from pathlib import Path
 import shutil
 import datetime
+import jdatetime
 import mimetypes
 
 
@@ -55,8 +56,12 @@ class File:
             dic[formatter] = getattr(self, formatter)
         return dic
 
-    def format(self, string: str):
-        string = self.modified_date.strftime(string)
+    def format(self, string: str, jalali_date: bool = False):
+        if jalali_date:
+            date = jdatetime.datetime.fromgregorian(datetime=self.modified_date)
+        else:
+            date = self.modified_date
+        string = date.strftime(string)
         return string.format(**self.formatters_dict)
 
     def __str__(self):
