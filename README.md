@@ -7,33 +7,33 @@ Examples will show you the power.
 
 After installing Tidier, using it is as easy as your moms cleans your room for you.
 
-Copy all files inside `pictures` folder to `organized` folder organized by date:
+**Copy** all files inside `pictures` folder to `organized` folder organized by date:
 
 ```bash
 $ tidier -i pictures -o organized
 ```
 \
-Move all files and organize by their year & type:
+**Move** all files and organize by their year & **type**:
 ```bash
 $ tidier -i pictures -o organized --format "%Y/{type}" -m 
 ```
-(output e.g. `/organized/2019/image/Amir.jpeg`)
+output e.g. `/organized/2019/image/Amir.jpeg`
 
 \
-Also, you can use `Jalali Calendar` date:
+Also, you can use **Jalali** calendar date:
 
 ```bash
 $ tidier -i codes -o organized --format "%y/%B" --jalali
 ```
-(output e.g. `/organized/1400/Azar/main.cpp`)
+output e.g. `/organized/99/Bahman/main.cpp`
 
 \
-You can set locale or organize files by their extension:
+You can set **locale** or organize files by their **extension**:
 
 ```bash
-$ tidier -i codes -o organized --format "%j/{ext}" --locale fr_FR
+$ tidier -i valentine -o organized --format "%Y %B/{ext}" --locale fr_FR
 ```
-(output e.g. `/organized/2021 déc/png/paris.png`)
+output e.g. `/organized/2021 déc/png/paris.png`
 
 \
 For all other options, see the output of `tidier --help`.
