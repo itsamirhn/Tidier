@@ -1,64 +1,100 @@
+""""""
 from typing import Tuple
+
 import locale
-from utils import *
 import click
+
+from tidier.core import Path, File
+from tidier.utils import find_sub_files
+
 
 
 @click.command()
-@click.option("-i", "--input", "input_path",
-              help="Input directory or file",
-              required=True,
-              type=click.Path(
-                  exists=True,
-                  path_type=Path
-              ))
-@click.option("-o", "--output", "output_path",
-              help="Output directory",
-              default="",
-              type=click.Path(
-                  file_okay=False,
-                  writable=True,
-                  path_type=Path
-              ))
-@click.option("-f", "--format", "format_pattern",
-              help="Folders format",
-              default="%Y/%B/%d/{type}",
-              show_default=True)
-@click.option("-e", "--exclude", "exclude_patterns",
-              help="Excluding patterns",
-              default=[],
-              multiple=True)
-@click.option("-l", "--locale", "locale_code",
-              help="Date and time locale",
-              default="en_US",
-              show_default=True)
-@click.option("-m", "--move", "should_move",
-              help="Move input file(s) instead of copy",
-              default=False,
-              show_default=True,
-              is_flag=True)
-@click.option("-a", "--all", "all_files",
-              help="Apply on all files including HIDDEN files",
-              default=False,
-              show_default=True,
-              is_flag=True)
-@click.option("-j", "--jalali", "jalali_date",
-              help="Use Jalali calendar",
-              default=False,
-              show_default=True,
-              is_flag=True)
-def main(input_path: Path,
-         output_path: Path,
-         format_pattern: str,
-         exclude_patterns: Tuple[str],
-         locale_code: str,
-         should_move: bool,
-         all_files: bool,
-         jalali_date: bool):
-
+@click.option(
+    "-i",
+    "--input",
+    "input_path",
+    help="Input directory or file",
+    required=True,
+    type=click.Path(exists=True, path_type=Path),
+)
+@click.option(
+    "-o",
+    "--output",
+    "output_path",
+    help="Output directory",
+    default="",
+    type=click.Path(file_okay=False, writable=True, path_type=Path),
+)
+@click.option(
+    "-f",
+    "--format",
+    "format_pattern",
+    help="Folders format",
+    default="%Y/%B/%d/{type}",
+    show_default=True,
+)
+@click.option(
+    "-e",
+    "--exclude",
+    "exclude_patterns",
+    help="Excluding patterns",
+    default=[],
+    multiple=True,
+)
+@click.option(
+    "-l",
+    "--locale",
+    "locale_code",
+    help="Date and time locale",
+    default="en_US",
+    show_default=True,
+)
+@click.option(
+    "-m",
+    "--move",
+    "should_move",
+    help="Move input file(s) instead of copy",
+    default=False,
+    show_default=True,
+    is_flag=True,
+)
+@click.option(
+    "-a",
+    "--all",
+    "all_files",
+    help="Apply on all files including HIDDEN files",
+    default=False,
+    show_default=True,
+    is_flag=True,
+)
+@click.option(
+    "-j",
+    "--jalali",
+    "jalali_date",
+    help="Use Jalali calendar",
+    default=False,
+    show_default=True,
+    is_flag=True,
+)
+def main(
+    input_path: Path,
+    output_path: Path,
+    format_pattern: str,
+    exclude_patterns: Tuple[str],
+    locale_code: str,
+    should_move: bool,
+    all_files: bool,
+    jalali_date: bool,
+) -> None:
+    """"""
+    # should_move_dict = {
+    #     True: "Moving",
+    #     False: "Copying",
+    # }
     exclude_patterns = list(exclude_patterns)
     if not all_files:
-        exclude_patterns.append('**/.*')
+        exclude_patterns.append("**/.*")
 
     files = []
     if input_path.is_file():
@@ -79,7 +115,5 @@ def main(input_path: Path,
 
 
 # Press the green button in the gutter to run the script.
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
-
