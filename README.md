@@ -12,12 +12,30 @@ Copy all files inside `pictures` folder to `organized` folder organized by date:
 ```bash
 $ tidier -i pictures -o organized
 ```
-
-Move all files and organize by their year & type: (e.g. `/organized/2019/image/amir.png`)
+\
+Move all files and organize by their year & type:
 ```bash
 $ tidier -i pictures -o organized --format "%Y/{type}" -m 
 ```
+(output e.g. `/organized/2019/image/Amir.jpeg`)
 
+\
+Also, you can use `Jalali Calendar` date:
+
+```bash
+$ tidier -i codes -o organized --format "%y/%B" --jalali
+```
+(output e.g. `/organized/1400/Azar/main.cpp`)
+
+\
+You can set locale or organize files by their extension:
+
+```bash
+$ tidier -i codes -o organized --format "%j/{ext}" --locale fr_FR
+```
+(output e.g. `/organized/2021 déc/png/paris.png`)
+
+\
 For all other options, see the output of `tidier --help`.
 
 
