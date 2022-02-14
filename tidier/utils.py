@@ -1,11 +1,11 @@
-from typing import List, Iterable
+from tidier.core import Path, File
 
-from core import *
+from typing import List, Iterable
 
 
 def find_sub_files(path: Path, exclude_patterns: Iterable[str]) -> List[File]:
     all_sub_paths = path.glob("**/*")
-    excluded_paths = []
+    excluded_paths: List[str] = []
     for pattern in exclude_patterns:
         excluded_paths += path.glob(pattern)
     files = [

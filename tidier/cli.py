@@ -1,7 +1,11 @@
 from typing import Tuple
-import locale
-from utils import *
+
 import click
+import locale
+
+from tidier.core import Path, File
+from tidier.utils import find_sub_files
+
 
 
 @click.command()
@@ -82,7 +86,10 @@ def main(
     all_files: bool,
     jalali_date: bool,
 ):
-
+    # should_move_dict = {
+    #     True: "Moving",
+    #     False: "Copying",
+    # }
     exclude_patterns = list(exclude_patterns)
     if not all_files:
         exclude_patterns.append("**/.*")
