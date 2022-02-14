@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='Tidier',
-    version='0.2',
+    version='0.3',
     packages=['tidier'],
     url='https://github.com/itsamirhn/Tidier',
     download_url='https://github.com/itsamirhn/Tidier/archive/refs/tags/v0.2.tar.gz',
