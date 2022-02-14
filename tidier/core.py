@@ -56,7 +56,7 @@ class File:
             dic[formatter] = getattr(self, formatter)
         return dic
 
-    def format(self, string: str, jalali_date: bool = False):
+    def format(self, string: str, jalali_date: bool):
         if jalali_date:
             date = jdatetime.datetime.fromgregorian(datetime=self.modified_date)
         else:

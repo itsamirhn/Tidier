@@ -1,5 +1,5 @@
 from typing import Tuple
-
+import locale
 from utils import *
 import click
 
@@ -28,22 +28,30 @@ import click
               help="Excluding patterns",
               default=[],
               multiple=True)
+@click.option("-l", "--locale", "locale_code",
+              help="Date and time locale",
+              default="en_US",
+              show_default=True)
 @click.option("-m", "--move", "should_move",
               help="Move input file(s) instead of copy",
               default=False,
+              show_default=True,
               is_flag=True)
 @click.option("-a", "--all", "all_files",
               help="Apply on all files including HIDDEN files",
               default=False,
+              show_default=True,
               is_flag=True)
 @click.option("-j", "--jalali", "jalali_date",
               help="Use Jalali calendar",
               default=False,
+              show_default=True,
               is_flag=True)
 def main(input_path: Path,
          output_path: Path,
          format_pattern: str,
          exclude_patterns: Tuple[str],
+         locale_code: str,
          should_move: bool,
          all_files: bool,
          jalali_date: bool):
@@ -58,6 +66,7 @@ def main(input_path: Path,
     if input_path.is_dir():
         files = find_sub_files(input_path, exclude_patterns)
 
+    locale.setlocale(locale.LC_ALL, locale_code)
     for file in files:
         path = output_path / file.format(format_pattern, jalali_date)
         path.mkdir(parents=True, exist_ok=True)
