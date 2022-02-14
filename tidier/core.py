@@ -7,7 +7,7 @@ import mimetypes
 
 class File:
 
-    ALLOWED_FORMATTERS = ['name', 'ext', 'type']
+    ALLOWED_FORMATTERS = ["name", "ext", "type"]
 
     def __init__(self, path: Path):
         if not path.is_file():
@@ -28,15 +28,15 @@ class File:
         if len(suffix) > 0:
             return suffix[1:]
         else:
-            return 'unknown'
+            return "unknown"
 
     @property
     def type(self):
         t = mimetypes.guess_type(self.name)[0]
         if t:
-            t = t.split('/')[0]
+            t = t.split("/")[0]
             return t
-        return 'unknown'
+        return "unknown"
 
     @property
     def modified_date(self):
