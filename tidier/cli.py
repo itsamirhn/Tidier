@@ -1,7 +1,8 @@
+""""""
 from typing import Tuple
 
-import click
 import locale
+import click
 
 from tidier.core import Path, File
 from tidier.utils import find_sub_files
@@ -85,7 +86,8 @@ def main(
     should_move: bool,
     all_files: bool,
     jalali_date: bool,
-):
+) -> None:
+    """"""
     # should_move_dict = {
     #     True: "Moving",
     #     False: "Copying",
