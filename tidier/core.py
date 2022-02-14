@@ -1,4 +1,4 @@
-""""""
+"""Description about file."""
 import datetime
 import mimetypes
 import shutil
@@ -7,11 +7,20 @@ import jdatetime
 
 
 class File:
-    """"""
+    """Description about class"""
     ALLOWED_FORMATTERS = ["name", "ext", "type"]
 
     def __init__(self, path: Path) -> None:
-        """
+        """Description
+
+        Args:
+            path (Path) : description about path.
+
+        Returns:
+            None
+
+        Raises:
+            ValueError : ValueError detail.
         """
         if not path.is_file():
             raise ValueError
