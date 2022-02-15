@@ -1,12 +1,11 @@
-""""""
+"""The CLI commands"""
+import locale
 from typing import Tuple
 
-import locale
 import click
 
 from tidier.core import Path, File
 from tidier.utils import find_sub_files
-
 
 
 @click.command()
@@ -88,10 +87,6 @@ def main(
     jalali_date: bool,
 ) -> None:
     """"""
-    # should_move_dict = {
-    #     True: "Moving",
-    #     False: "Copying",
-    # }
     exclude_patterns = list(exclude_patterns)
     if not all_files:
         exclude_patterns.append("**/.*")
@@ -114,6 +109,5 @@ def main(
             file.copy(path)
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == "__main__":
     main()
