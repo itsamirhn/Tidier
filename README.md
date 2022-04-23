@@ -1,4 +1,8 @@
 # Tidier
+[![PyPi version](https://badgen.net/pypi/v/tidier)](https://pypi.org/project/Tidier/)
+[![PyPI license](https://img.shields.io/pypi/l/tidier.svg)](https://pypi.python.org/pypi/tidier/)
+[![PyPI download month](https://img.shields.io/pypi/dm/tidier.svg)](https://pypi.python.org/pypi/tidier/)
+[![GitHub stars](https://img.shields.io/github/stars/itsamirhn/tidier.svg?style=social&label=Star&maxAge=2592000)](https://github.com/itsamirhn/Tidier/stargazers/)
 
 Tidier is a simple command line tool that helps you make your files tidy up.
 Examples will show you the power.
@@ -66,3 +70,5 @@ $ pip install git+git://github.com/itsamirhn/tidier.git
 ## License
 
 Tidier is MIT licensed.
+
+[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
