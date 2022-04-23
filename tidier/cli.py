@@ -4,7 +4,7 @@ from typing import Tuple
 
 import click
 
-from .core import Path, find_sub_files
+from tidier.core import Path, find_sub_files
 
 
 @click.command()
@@ -85,15 +85,15 @@ from .core import Path, find_sub_files
     is_flag=True,
 )
 def main(
-    input_path: Path,
-    output_path: Path,
-    regex_match: str,
-    regex_replace: str,
-    exclude_patterns: Tuple[str],
-    should_copy: bool,
-    locale_code: str,
-    all_files: bool,
-    jalali_date: bool,
+        input_path: Path,
+        output_path: Path,
+        regex_match: str,
+        regex_replace: str,
+        exclude_patterns: Tuple[str],
+        should_copy: bool,
+        locale_code: str,
+        all_files: bool,
+        jalali_date: bool,
 ) -> None:
     """Tidy up the file & folder names"""
     locale.setlocale(locale.LC_ALL, locale_code)
