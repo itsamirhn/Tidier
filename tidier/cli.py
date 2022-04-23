@@ -42,6 +42,15 @@ from .core import Path, find_sub_files
     multiple=True,
 )
 @click.option(
+    "-c",
+    "--copy",
+    "should_copy",
+    help="Copy files instead of Move",
+    default=False,
+    show_default=True,
+    is_flag=True,
+)
+@click.option(
     "-l",
     "--locale",
     "locale_code",
@@ -72,6 +81,7 @@ def main(
     output_path: Path,
     regex_replace: str,
     exclude_patterns: Tuple[str],
+    should_copy: bool,
     locale_code: str,
     all_files: bool,
     jalali_date: bool,
@@ -88,8 +98,8 @@ def main(
 
     for file in files:
         old_path = file.path
-        new_path = file.rename(regex, file.format(replacement, jalali_date), output_path)
-        click.echo(f"[-] Moving {old_path} to {new_path}")
+        new_path = file.rename(regex, file.format(replacement, jalali_date), output_path, should_copy)
+        click.echo(f"[-] {'Copying' if should_copy else 'Moving'} {old_path} to {new_path}")
 
 
 if __name__ == "__main__":

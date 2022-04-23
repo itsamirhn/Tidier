@@ -2,6 +2,7 @@
 import datetime
 import mimetypes
 import re
+import shutil
 from pathlib import Path
 
 import jdatetime
@@ -134,13 +135,14 @@ class File:
             return True
         return bool(re.search(regex, self.name))
 
-    def rename(self, regex: str, replacement: str, parent: Path = None) -> Path:
+    def rename(self, regex: str, replacement: str, parent: Path = None, copy: bool = True) -> Path:
         """Rename file's name using given regex and replacement.
 
         Args:
             regex (str) : Regex to be matched
             replacement (str) : Replacement string
             parent (Path) : Parent directory of the new file
+            copy (bool) : Flag to copy file or move
 
         Returns:
             Renamed file's path
@@ -152,7 +154,10 @@ class File:
             parent = self.path.parent
         new_parent_path = parent / new_path.parent
         new_parent_path.mkdir(parents=True, exist_ok=True)
-        return self.path.rename(new_parent_path / new_name)
+        if copy:
+            return shutil.copy(self.path, new_parent_path / new_name)
+        else:
+            return self.path.rename(new_parent_path / new_name)
 
     def __str__(self) -> str:
         """String representation of the file.
