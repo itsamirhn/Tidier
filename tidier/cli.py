@@ -24,13 +24,21 @@ from .core import Path, find_sub_files
         path_type=Path
     ))
 @click.option(
+    "-m",
+    "--match",
+    "regex_match",
+    help="Regex match",
+    type=str,
+    default="^(.+)$",
+    show_default=True,
+)
+@click.option(
     "-r",
-    "--regex",
+    "--replace",
     "regex_replace",
-    help="Regex match and replace",
-    nargs=2,
-    type=(str, str),
-    default=(r"(.+)", r"%Y/%B/%d/\1"),
+    help="Regex replace",
+    type=str,
+    default=r"%Y/%B/%d/{name}",
     show_default=True,
 )
 @click.option(
@@ -79,6 +87,7 @@ from .core import Path, find_sub_files
 def main(
     input_path: Path,
     output_path: Path,
+    regex_match: str,
     regex_replace: str,
     exclude_patterns: Tuple[str],
     should_copy: bool,
@@ -93,12 +102,11 @@ def main(
     if not all_files:
         exclude_patterns.append("**/.*")
 
-    regex, replacement = regex_replace[0], regex_replace[1]
-    files = find_sub_files(input_path, regex, exclude_patterns)
+    files = find_sub_files(input_path, regex_match, exclude_patterns)
 
     for file in files:
         old_path = file.path
-        new_path = file.rename(regex, file.format(replacement, jalali_date), output_path, should_copy)
+        new_path = file.rename(regex_match, file.format(regex_replace, jalali_date), output_path, should_copy)
         click.echo(f"[-] {'Copying' if should_copy else 'Moving'} {old_path} to {new_path}")
 
 

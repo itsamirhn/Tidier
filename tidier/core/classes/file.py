@@ -147,9 +147,8 @@ class File:
         Returns:
             Renamed file's path
         """
-        new_path = Path(re.sub(regex, replacement, self.stem))
-        new_name = new_path.name + self.suffix
-
+        new_path = Path(re.sub(regex, replacement, self.name))
+        new_name = new_path.name
         if not parent:
             parent = self.path.parent
         new_parent_path = parent / new_path.parent
