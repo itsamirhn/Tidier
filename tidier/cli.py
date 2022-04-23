@@ -17,7 +17,7 @@ from tidier.core import Path, find_sub_files
     "--output",
     "output_path",
     help="Output directory",
-    default="./Tidier",
+    default=None,
     type=click.Path(
         file_okay=False,
         writable=True,
