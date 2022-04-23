@@ -10,8 +10,19 @@ from .core import Path, find_sub_files
 @click.command()
 @click.argument(
     "input_path",
-    type=click.Path(exists=True, path_type=Path),
+    type=click.Path(exists=True, path_type=Path, file_okay=False),
 )
+@click.option(
+    "-o",
+    "--output",
+    "output_path",
+    help="Output directory",
+    default="./Tidier",
+    type=click.Path(
+        file_okay=False,
+        writable=True,
+        path_type=Path
+    ))
 @click.option(
     "-r",
     "--regex",
@@ -58,6 +69,7 @@ from .core import Path, find_sub_files
 )
 def main(
     input_path: Path,
+    output_path: Path,
     regex_replace: str,
     exclude_patterns: Tuple[str],
     locale_code: str,
@@ -76,7 +88,7 @@ def main(
 
     for file in files:
         old_path = file.path
-        new_path = file.rename(regex, file.format(replacement, jalali_date))
+        new_path = file.rename(regex, file.format(replacement, jalali_date), output_path)
         click.echo(f"[-] Moving {old_path} to {new_path}")
 
 

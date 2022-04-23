@@ -134,12 +134,13 @@ class File:
             return True
         return bool(re.search(regex, self.name))
 
-    def rename(self, regex: str, replacement: str) -> Path:
+    def rename(self, regex: str, replacement: str, parent: Path = None) -> Path:
         """Rename file's name using given regex and replacement.
 
         Args:
             regex (str) : Regex to be matched
             replacement (str) : Replacement string
+            parent (Path) : Parent directory of the new file
 
         Returns:
             Renamed file's path
@@ -147,9 +148,11 @@ class File:
         new_path = Path(re.sub(regex, replacement, self.stem))
         new_name = new_path.name + self.suffix
 
-        parent_path = self.path.parent / new_path.parent
-        parent_path.mkdir(parents=True, exist_ok=True)
-        return self.path.rename(parent_path / new_name)
+        if not parent:
+            parent = self.path.parent
+        new_parent_path = parent / new_path.parent
+        new_parent_path.mkdir(parents=True, exist_ok=True)
+        return self.path.rename(new_parent_path / new_name)
 
     def __str__(self) -> str:
         """String representation of the file.
