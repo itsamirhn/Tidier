@@ -1,7 +1,7 @@
-"""The Classes and Logic of the Tidier"""
+"""File Class"""
 import datetime
 import mimetypes
-import shutil
+import re
 from pathlib import Path
 
 import jdatetime
@@ -10,7 +10,7 @@ import jdatetime
 class File:
     """File object with given path"""
 
-    ALLOWED_FORMATTERS = ["name", "ext", "type"]
+    ALLOWED_FORMATTERS = ["name", "stem", "ext", "type", "suffix"]
 
     def __init__(self, path: Path) -> None:
         """Description
@@ -36,6 +36,15 @@ class File:
             File's name
         """
         return self.path.name
+
+    @property
+    def stem(self) -> str:
+        """Finding name without extension of the file using `path`.
+
+        Returns:
+            File's Just name
+        """
+        return self.path.stem
 
     @property
     def suffix(self) -> str:
@@ -83,28 +92,6 @@ class File:
         mtime = datetime.datetime.fromtimestamp(self.path.stat().st_mtime)
         return mtime
 
-    def copy(self, path: Path) -> None:
-        """Copy the file to given path.
-
-        Args:
-            path (Path) : the path that file should be copied to.
-
-        Returns:
-            None
-        """
-        shutil.copy2(self.path, path)
-
-    def move(self, path: Path) -> None:
-        """Move the file to given path.
-
-        Args:
-            path (Path) : the path that file should be moved to.
-
-        Returns:
-            None
-        """
-        shutil.move(self.path, path)
-
     @property
     def formatters_dict(self) -> dict:
         """Getting dictionary of file's attributes than can be use in formatting
@@ -134,6 +121,40 @@ class File:
         string = date.strftime(string)
         return string.format(**self.formatters_dict)
 
+    def match(self, regex: str) -> bool:
+        """Checking if file's name matches given regex.
+
+        Args:
+            regex (str) : Regex to be matched
+
+        Returns:
+            True if file's name matches given regex, False otherwise.
+        """
+        if regex is None:
+            return True
+        return bool(re.search(regex, self.name))
+
+    def rename(self, regex: str, replacement: str) -> Path:
+        """Rename file's name using given regex and replacement.
+
+        Args:
+            regex (str) : Regex to be matched
+            replacement (str) : Replacement string
+
+        Returns:
+            Renamed file's path
+        """
+        new_path = Path(re.sub(regex, replacement, self.stem))
+        new_name = new_path.name + self.suffix
+
+        parent_path = self.path.parent / new_path.parent
+        parent_path.mkdir(parents=True, exist_ok=True)
+        return self.path.rename(parent_path / new_name)
+
     def __str__(self) -> str:
-        """"""
-        return self.name
+        """String representation of the file.
+
+        Returns:
+            File's path representation
+        """
+        return self.path.__str__()

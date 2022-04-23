@@ -4,33 +4,22 @@ from typing import Tuple
 
 import click
 
-from tidier.core import Path, File
-from tidier.utils import find_sub_files
+from .core import Path, find_sub_files
 
 
 @click.command()
-@click.option(
-    "-i",
-    "--input",
+@click.argument(
     "input_path",
-    help="Input directory or file",
-    required=True,
     type=click.Path(exists=True, path_type=Path),
 )
 @click.option(
-    "-o",
-    "--output",
-    "output_path",
-    help="Output directory",
-    default="",
-    type=click.Path(file_okay=False, writable=True, path_type=Path),
-)
-@click.option(
-    "-f",
-    "--format",
-    "format_pattern",
-    help="Folders format",
-    default="%Y/%B/%d/{type}",
+    "-r",
+    "--regex",
+    "regex_replace",
+    help="Regex match and replace",
+    nargs=2,
+    type=(str, str),
+    default=(r"(.+)", r"%Y/%B/%d/\1"),
     show_default=True,
 )
 @click.option(
@@ -48,15 +37,6 @@ from tidier.utils import find_sub_files
     help="Date and time locale",
     default="en_US",
     show_default=True,
-)
-@click.option(
-    "-m",
-    "--move",
-    "should_move",
-    help="Move input file(s) instead of copy",
-    default=False,
-    show_default=True,
-    is_flag=True,
 )
 @click.option(
     "-a",
@@ -78,35 +58,26 @@ from tidier.utils import find_sub_files
 )
 def main(
     input_path: Path,
-    output_path: Path,
-    format_pattern: str,
+    regex_replace: str,
     exclude_patterns: Tuple[str],
     locale_code: str,
-    should_move: bool,
     all_files: bool,
     jalali_date: bool,
 ) -> None:
-    """"""
+    """Tidy up the file & folder names"""
+    locale.setlocale(locale.LC_ALL, locale_code)
+
     exclude_patterns = list(exclude_patterns)
     if not all_files:
         exclude_patterns.append("**/.*")
 
-    files = []
-    if input_path.is_file():
-        files = [File(input_path)]
-    if input_path.is_dir():
-        files = find_sub_files(input_path, exclude_patterns)
+    regex, replacement = regex_replace[0], regex_replace[1]
+    files = find_sub_files(input_path, regex, exclude_patterns)
 
-    locale.setlocale(locale.LC_ALL, locale_code)
     for file in files:
-        path = output_path / file.format(format_pattern, jalali_date)
-        path.mkdir(parents=True, exist_ok=True)
-        if should_move:
-            click.echo(f"[-] Moving {file.path} to {path}")
-            file.move(path)
-        else:
-            click.echo(f"[-] Copying {file.path} to {path}")
-            file.copy(path)
+        old_path = file.path
+        new_path = file.rename(regex, file.format(replacement, jalali_date))
+        click.echo(f"[-] Moving {old_path} to {new_path}")
 
 
 if __name__ == "__main__":
