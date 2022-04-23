@@ -41,7 +41,7 @@ Also, you can use **Jalali** calendar date:
 ```bash
 $ tidier codes -o organized -r "%y/%B/{name}" --jalali
 ```
-Output e.g. `[-] Moving pictures/IMG_123.jpg to organized/99/Ordibehesht/IMG_123.jpg`
+Output e.g. `[-] Moving codes/autolms.py to organized/99/Ordibehesht/autolms.py`
 
 \
 You can set **locale** or organize files by their **extension**:
