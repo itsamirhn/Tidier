@@ -4,8 +4,10 @@
 [![PyPI download month](https://img.shields.io/pypi/dm/tidier.svg)](https://pypi.python.org/pypi/tidier/)
 [![GitHub stars](https://img.shields.io/github/stars/itsamirhn/tidier.svg?style=social&label=Star&maxAge=2592000)](https://github.com/itsamirhn/Tidier/stargazers/)
 
+
 Tidier is a simple command line tool that helps you make your files tidy up.
 Examples will show you the power.
+
 
 ## Examples
 
@@ -28,9 +30,9 @@ Output e.g. `[-] Copying pictures/IMG_123.jpg to organized/2018/image/IMG_123.jp
 \
 **Move** all of your favorite show episodes to organized Season seperated folder:
 ```bash
-$ tidier 'Breaking Bad' -m '.*S0*(\d)E0*(\d).*' -r "Season \1/Episode \2.{ext}"
+$ tidier 'Breaking Bad' -m '.*s0*(\d)e0*(\d).*' -r "Season \1/Episode \2.{ext}"
 ```
-Output e.g. `[-] Moving Breaking Bad/breaking.bad.S04E03 to Breaking Bad/Season 4/Episode 3.mkv`
+Output e.g. `[-] Moving Breaking Bad/breaking.bad.s04e03.web-dl.mkv to Breaking Bad/Season 4/Episode 3.mkv`
 
 
 \
@@ -45,9 +47,9 @@ Output e.g. `[-] Moving pictures/IMG_123.jpg to organized/99/Ordibehesht/IMG_123
 You can set **locale** or organize files by their **extension**:
 
 ```bash
-$ tidier valentine -o organized -r "%Y %B/{ext}/{name}" --locale fr_FR
+$ tidier valentine -r "%Y %B/{ext}/{name}" --locale fr_FR
 ```
-Output e.g. `[-] Moving pictures/Paris.jpg to organized/2021 déc/Paris.jpg`
+Output e.g. `[-] Moving valentine/Paris.jpg to valentine/2021 déc/Paris.jpg`
 
 \
 For all other options, see the output of `tidier --help`.
@@ -55,13 +57,13 @@ For all other options, see the output of `tidier --help`.
 
 ## Installing
 
-To install the latest release from [PyPI](http://pypi.python.org/pypi/fabtools>)
+To install the latest release from [PyPI](http://pypi.python.org/pypi/fabtools>):
 
 ``` bash
 $ pip install tidier
 ```
 
-To install the latest development version from [GitHub](https://github.com/itsamirhn/Tidier)
+To install the latest development version from [GitHub](https://github.com/itsamirhn/Tidier):
 
 ``` bash
 $ pip install git+git://github.com/itsamirhn/tidier.git
@@ -71,4 +73,5 @@ $ pip install git+git://github.com/itsamirhn/tidier.git
 
 Tidier is MIT licensed.
 
+---
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
