@@ -7,33 +7,43 @@ Examples will show you the power.
 
 After installing Tidier, using it is as easy as your moms cleans your room for you.
 
-**Copy** all files inside `pictures` folder to `organized` folder organized by date:
+**Move** all files inside `pictures` folder to `organized` folder organized by date:
 
 ```bash
-$ tidier -i pictures -o organized
+$ tidier pictures -o organized
 ```
+Output e.g. `[-] Moving pictures/IMG_123.jpg to organized/2018/April/01/IMG_123.jpg`
+
 \
-**Move** all files and organize by their year & **type**:
+**Copy** all files and organize by their year & **type**:
 ```bash
-$ tidier -i pictures -o organized --format "%Y/{type}" -m 
+$ tidier pictures -o organized -r "%Y/{type}/{name}" --copy
 ```
-output e.g. `/organized/2019/image/Amir.jpeg`
+Output e.g. `[-] Copying pictures/IMG_123.jpg to organized/2018/image/IMG_123.jpg`
+
+\
+**Move** all of your favorite show episodes to organized Season seperated folder:
+```bash
+$ tidier 'Breaking Bad' -m '.*S0*(\d)E0*(\d).*' -r "Season \1/Episode \2.{ext}"
+```
+Output e.g. `[-] Moving Breaking Bad/breaking.bad.S04E03 to Breaking Bad/Season 4/Episode 3.mkv`
+
 
 \
 Also, you can use **Jalali** calendar date:
 
 ```bash
-$ tidier -i codes -o organized --format "%y/%B" --jalali
+$ tidier codes -o organized -r "%y/%B/{name}" --jalali
 ```
-output e.g. `/organized/99/Bahman/main.cpp`
+Output e.g. `[-] Moving pictures/IMG_123.jpg to organized/99/Ordibehesht/IMG_123.jpg`
 
 \
 You can set **locale** or organize files by their **extension**:
 
 ```bash
-$ tidier -i valentine -o organized --format "%Y %B/{ext}" --locale fr_FR
+$ tidier valentine -o organized -r "%Y %B/{ext}/{name}" --locale fr_FR
 ```
-output e.g. `/organized/2021 déc/png/paris.png`
+Output e.g. `[-] Moving pictures/Paris.jpg to organized/2021 déc/Paris.jpg`
 
 \
 For all other options, see the output of `tidier --help`.
