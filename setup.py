@@ -2,10 +2,10 @@ from setuptools import setup
 
 setup(
     name="Tidier",
-    version="0.4.1",
+    version="0.4.2",
     packages=["tidier"],
     url="https://github.com/itsamirhn/Tidier",
-    download_url="https://github.com/itsamirhn/Tidier/archive/refs/tags/v0.4.1.tar.gz",
+    download_url="https://github.com/itsamirhn/Tidier/archive/refs/tags/v0.4.2.tar.gz",
     license="MIT",
     author="AmirMohammad Hosseini Nasab",
     author_email="awmirhn@gmail.com",
