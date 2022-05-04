@@ -121,18 +121,19 @@ def main(
                 new_path = file.rename(regex_match, file.format(regex_replace, jalali_date), output_path, should_copy)
                 changed_paths.append((old_path, new_path))
             except Exception as e:
-                failed_files.append(file)
-                click.secho(f"\n[!] Error moving {old_path} due error: {e}", err=True, fg="red")
+                failed_files.append((file, e))
 
     if failed_files:
         with open(Path.cwd() / "tidier_fails.txt", "w") as f:
-            for file in failed_files:
+            for file, error in failed_files:
                 f.write(f"{file.path}\n")
         click.secho(f"[!] Failed files are saved to {Path.cwd() / 'tidier_fails.txt'}", err=True, fg="yellow")
 
     if log:
         for old_path, new_path in changed_paths:
             click.secho(f"{'Copied' if should_copy else 'Moved'} {old_path} to {new_path}", fg="green")
+        for file, error in failed_files:
+            click.secho(f"[!] Failed {'copying' if should_copy else 'moving'} {file.path} due: {error}", err=True, fg="red")
 
 
 if __name__ == "__main__":
