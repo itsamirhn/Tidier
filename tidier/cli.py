@@ -85,6 +85,12 @@ from tidier.core import Path, find_sub_files
     show_default=True,
     is_flag=True,
 )
+@click.option(
+    "--log",
+    help="Full log for changed paths",
+    default=False,
+    is_flag=True,
+)
 def main(
         input_path: Path,
         output_path: Path,
@@ -95,6 +101,7 @@ def main(
         locale_code: str,
         all_files: bool,
         jalali_date: bool,
+        log: bool,
 ) -> None:
     """Tidy up the file & folder names"""
     locale.setlocale(locale.LC_ALL, locale_code)
@@ -107,8 +114,7 @@ def main(
 
     failed_files = []
     changed_paths = []
-    with click.progressbar(files, label=f"{'Copying' if should_copy else 'Moving'} files inside {input_path}",
-                           item_show_func=lambda x: x.path.__str__() if x else "Done!") as files_bar:
+    with click.progressbar(files, item_show_func=lambda x: x.path.__str__() if x else "Done!") as files_bar:
         for file in files_bar:
             try:
                 old_path = file.path
@@ -123,6 +129,10 @@ def main(
             for file in failed_files:
                 f.write(f"{file.path}\n")
         click.secho(f"[!] Failed files are saved to {Path.cwd() / 'tidier_fails.txt'}", err=True, fg="yellow")
+
+    if log:
+        for old_path, new_path in changed_paths:
+            click.secho(f"{'Copied' if should_copy else 'Moved'} {old_path} to {new_path}", fg="green")
 
 
 if __name__ == "__main__":
