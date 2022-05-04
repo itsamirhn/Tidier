@@ -1,5 +1,6 @@
 """The CLI commands"""
 import locale
+import random
 from typing import Tuple
 
 import click
@@ -104,10 +105,24 @@ def main(
 
     files = find_sub_files(input_path, regex_match, exclude_patterns)
 
-    for file in files:
-        old_path = file.path
-        new_path = file.rename(regex_match, file.format(regex_replace, jalali_date), output_path, should_copy)
-        click.echo(f"[-] {'Copying' if should_copy else 'Moving'} {old_path} to {new_path}")
+    failed_files = []
+    changed_paths = []
+    with click.progressbar(files, label=f"{'Copying' if should_copy else 'Moving'} files inside {input_path}",
+                           item_show_func=lambda x: x.path.__str__() if x else "Done!") as files_bar:
+        for file in files_bar:
+            try:
+                old_path = file.path
+                new_path = file.rename(regex_match, file.format(regex_replace, jalali_date), output_path, should_copy)
+                changed_paths.append((old_path, new_path))
+            except Exception as e:
+                failed_files.append(file)
+                click.secho(f"\n[!] Error moving {old_path} due error: {e}", err=True, fg="red")
+
+    if failed_files:
+        with open(Path.cwd() / "tidier_fails.txt", "w") as f:
+            for file in failed_files:
+                f.write(f"{file.path}\n")
+        click.secho(f"[!] Failed files are saved to {Path.cwd() / 'tidier_fails.txt'}", err=True, fg="yellow")
 
 
 if __name__ == "__main__":
