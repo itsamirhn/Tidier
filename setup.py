@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="Tidier",
-    version="0.5.1",
+    version="0.5.2",
     packages=find_packages(),
     url="https://github.com/itsamirhn/Tidier",
-    download_url="https://github.com/itsamirhn/Tidier/archive/refs/tags/v0.5.1.tar.gz",
+    download_url="https://github.com/itsamirhn/Tidier/archive/refs/tags/v0.5.2.tar.gz",
     license="MIT",
     author="AmirMohammad Hosseini Nasab",
     author_email="awmirhn@gmail.com",
@@ -16,7 +16,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "tidier=tidier.cli:main",
+            "tidier=tidier.cli:cli",
         ],
     },
 )
