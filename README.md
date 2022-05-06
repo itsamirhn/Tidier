@@ -16,40 +16,40 @@ After installing Tidier, using it is as easy as your moms cleans your room for y
 **Move** all files inside `pictures` folder to `organized` folder organized by date:
 
 ```bash
-$ tidier pictures -o organized
+$ tidier tidy "Pictures" -o "Organized"
 ```
-Log output e.g. `[-] Moving pictures/IMG_123.jpg to organized/2018/April/01/IMG_123.jpg`
+Log output e.g. `[-] Moving Pictures/IMG_123.jpg to Organized/2018/April/01/IMG_123.jpg`
 
 \
 **Copy** all files and organize by their year & **type**:
 ```bash
-$ tidier pictures -o organized -r "%Y/{type}/{name}" --copy
+$ tidier tidy "Pictures" -o "Organized" -r "%Y/{type}/{name}" --copy
 ```
-Log e.g. `[-] Copying pictures/IMG_123.jpg to organized/2018/image/IMG_123.jpg`
+Log e.g. `[-] Copying /Pictures/IMG_123.jpg to Organized/2018/image/IMG_123.jpg`
 
 \
 **Move** all of your favorite show episodes to organized Season seperated folder:
 ```bash
-$ tidier 'Breaking Bad' -m '.*s0*(\d)e0*(\d).*' -r "Season \1/Episode \2.{ext}"
+$ tidier tvshow "Breaking Bad"
 ```
-Log e.g. `[-] Moving Breaking Bad/breaking.bad.s04e03.web-dl.mkv to Breaking Bad/Season 4/Episode 3.mkv`
+Log e.g. `[-] Moving /Breaking Bad/breaking.bad.s04e03.web-dl.mkv to /Breaking Bad/Season 4/Episode 3.mkv`
 
 
 \
 Also, you can use **Jalali** calendar date:
 
 ```bash
-$ tidier codes -o organized -r "%y/%B/{name}" --jalali
+$ tidier tidy "Scripts" -r "%y/%B/{name}" --jalali
 ```
-Log e.g. `[-] Moving codes/autolms.py to organized/99/Ordibehesht/autolms.py`
+Log e.g. `[-] Moving Scripts/Crawler.py to Scripts/99/Ordibehesht/Crawler.py`
 
 \
 You can set **locale** or organize files by their **extension**:
 
 ```bash
-$ tidier valentine -r "%Y %B/{ext}/{name}" --locale fr_FR
+$ tidier tidy "Valentine" -r "%Y %B/{ext}/{name}" --locale fr_FR
 ```
-Log e.g. `[-] Moving valentine/Paris.jpg to valentine/2021 déc/Paris.jpg`
+Log e.g. `[-] Moving Valentine/Paris.jpg to Valentine/2021 déc/Paris.jpg`
 
 \
 For all other options, see the output of `tidier --help`.
