@@ -32,7 +32,7 @@ Log e.g. `[-] Copying Pictures/IMG_123.jpg to Organized/2018/image/IMG_123.jpg`
 ```bash
 $ tidier tvshow "Breaking Bad"
 ```
-Log e.g. `[-] Moving Breaking Bad/breaking.bad.s04e03.web-dl.mkv to Breaking Bad/Season 4/Episode 3.mkv`
+Log e.g. `[-] Moving Breaking Bad/breaking.bad.S04E03.x265.WEB-DL.mkv to Breaking Bad/Season 4 | x265 WEB-DL/Episode 3.mkv`
 
 
 \
