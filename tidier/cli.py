@@ -118,7 +118,8 @@ def main(
         for file in files_bar:
             try:
                 old_path = file.path
-                new_path = file.rename(regex_match, file.format(regex_replace, jalali_date), output_path, should_copy)
+                formatted_path = file.formatter(regex_replace, jalali_date)
+                new_path = file.rename(regex_match, formatted_path, output_path, should_copy)
                 changed_paths.append((old_path, new_path))
             except Exception as e:
                 failed_files.append((file, e))

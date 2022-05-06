@@ -11,7 +11,7 @@ import jdatetime
 class File:
     """File object with given path"""
 
-    ALLOWED_FORMATTERS = ["name", "stem", "ext", "type", "suffix"]
+    ALLOWED_FORMATTERS = ["name", "stem", "ext", "type", "suffix", "path", "parent"]
 
     def __init__(self, path: Path) -> None:
         """Description
@@ -28,6 +28,15 @@ class File:
         if not path.is_file():
             raise ValueError
         self.path = path
+
+    @property
+    def parent(self) -> Path:
+        """Finding parent of the file using `path`.
+
+        Returns:
+            File's parent
+        """
+        return self.path.parent
 
     @property
     def name(self) -> str:
@@ -105,7 +114,7 @@ class File:
             dic[formatter] = getattr(self, formatter)
         return dic
 
-    def format(self, string: str, jalali_date: bool) -> str:
+    def formatter(self, string: str, jalali_date: bool) -> str:
         """Getting dictionary of file's attributes than can be use in formatting
 
         Args:
