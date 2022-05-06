@@ -192,15 +192,6 @@ def tidy(
     is_flag=True,
 )
 @click.option(
-    "-c",
-    "--copy",
-    "should_copy",
-    help="Copy files instead of Move",
-    default=False,
-    show_default=True,
-    is_flag=True,
-)
-@click.option(
     "--log",
     help="Full log for changed paths",
     default=False,
@@ -210,18 +201,30 @@ def tv_show(
         input_path: Path,
         output_path: Path,
         ignore_subtitles: bool,
-        should_copy: bool,
         log: bool
 ) -> None:
     """Auto Tidy TV Shows Episodes"""
-    click.secho("[+] Searching for TV Shows", fg="green")
+    click.secho("[+] Cleaning Episodes name...", fg="green")
     main(
         input_path,
         output_path,
-        r"^.*S0*(?P<season>\d{1,2})E0*(?P<episode>\d{1,2}).*(?P<ext>mkv|mp4)$",
-        r"Season \g<season>/Episode \g<episode>.\g<ext>",
+        r"_",
+        r" ",
         (),
-        should_copy,
+        False,
+        "en_US",
+        False,
+        False,
+        log,
+    )
+    click.secho("[+] Adding Episodes to Folders...", fg="green")
+    main(
+        input_path,
+        output_path,
+        r"^.*(S|s)0*(?P<season>\d{1,2})(E|e)0*(?P<episode>\d{1,2})(?P<extra>.*)\.(?P<ext>mkv|mp4)$",
+        r"Season \g<season> | \g<extra>/Episode \g<episode>.\g<ext>",
+        (),
+        False,
         "en_US",
         False,
         False,
@@ -232,10 +235,10 @@ def tv_show(
         main(
             input_path,
             output_path,
-            r"^.*S0*(?P<season>\d{1,2})E0*(?P<episode>\d{1,2})(?P<)*(?P<ext>srt|ssa)$",
+            r"^.*(S|s)0*(?P<season>\d{1,2})(E|e)0*(?P<episode>\d{1,2}).*\.(?P<ext>srt|ssa)$",
             r"Season \g<season> | Subtitles/Episode \g<episode>.\g<ext>",
             (),
-            should_copy,
+            False,
             "en_US",
             False,
             False,
