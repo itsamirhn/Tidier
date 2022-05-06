@@ -1,6 +1,5 @@
 """The CLI commands"""
 import locale
-import random
 from typing import Tuple
 
 import click
@@ -30,6 +29,15 @@ def main(
 
     files = find_sub_files(input_path, regex_match, exclude_patterns)
 
+    if silent:
+        for file in files:
+            try:
+                formatted_path = file.formatter(regex_replace, jalali_date)
+                file.rename(regex_match, formatted_path, output_path, should_copy)
+            except Exception as e:
+                pass
+        return
+
     failed_files = []
     changed_paths = []
     with click.progressbar(files, item_show_func=lambda x: x.path.__str__() if x else "Done!") as files_bar:
@@ -41,9 +49,8 @@ def main(
                 changed_paths.append((old_path, new_path))
             except Exception as e:
                 failed_files.append((file, e))
-
     if failed_files:
-        with open(Path.cwd() / "tidier_fails.txt", "w") as f:
+        with open(Path.cwd() / "tidier_fails.txt", "a") as f:
             for file, error in failed_files:
                 f.write(f"{file.path}\n")
         click.secho(f"[!] Failed files are saved to {Path.cwd() / 'tidier_fails.txt'}", err=True, fg="yellow")
