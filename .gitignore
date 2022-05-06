@@ -259,3 +259,4 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+tidier_fails.txt
