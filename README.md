@@ -8,6 +8,9 @@
 Tidier is a simple command line tool that helps you make your files tidy up.
 Examples will show you the power.
 
+## Demo
+
+<img src="demo.gif" alt="Demo for Tidier" width="1000">
 
 ## Examples
 
