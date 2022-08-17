@@ -8,8 +8,8 @@ from tidier.core import Path, find_sub_files
 
 
 def main(
-        input_path: Path,
-        output_path: Path,
+        input_path: str,
+        output_path: str,
         regex_match: str,
         regex_replace: str,
         exclude_patterns: Tuple,
@@ -21,6 +21,11 @@ def main(
         silent: bool = False,
 ) -> None:
     """Custom full option command for organizing files"""
+    input_path = Path(input_path)
+    if output_path is None:
+        output_path = input_path
+    output_path = Path(output_path)
+
     locale.setlocale(locale.LC_ALL, locale_code)
 
     exclude_patterns = list(exclude_patterns)
@@ -72,7 +77,7 @@ def cli():
 @cli.command()
 @click.argument(
     "input_path",
-    type=click.Path(exists=True, path_type=Path, file_okay=False),
+    type=click.Path(exists=True, file_okay=False),
 )
 @click.option(
     "-o",
@@ -83,7 +88,6 @@ def cli():
     type=click.Path(
         file_okay=False,
         writable=True,
-        path_type=Path
     ))
 @click.option(
     "-m",
@@ -153,8 +157,8 @@ def cli():
     is_flag=True,
 )
 def tidy(
-        input_path: Path,
-        output_path: Path,
+        input_path: str,
+        output_path: str,
         regex_match: str,
         regex_replace: str,
         exclude_patterns: Tuple[str],
@@ -171,7 +175,7 @@ def tidy(
 @cli.command("tvshow")
 @click.argument(
     "input_path",
-    type=click.Path(exists=True, path_type=Path, file_okay=False),
+    type=click.Path(exists=True, file_okay=False),
 )
 @click.option(
     "-o",
@@ -182,7 +186,6 @@ def tidy(
     type=click.Path(
         file_okay=False,
         writable=True,
-        path_type=Path
     ))
 @click.option(
     "--ignore-subtitles",
@@ -198,8 +201,8 @@ def tidy(
     is_flag=True,
 )
 def tv_show(
-        input_path: Path,
-        output_path: Path,
+        input_path: str,
+        output_path: str,
         ignore_subtitles: bool,
         log: bool
 ) -> None:

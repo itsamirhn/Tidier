@@ -20,4 +20,5 @@ setup(
             "tidier=tidier.cli:cli",
         ],
     },
+    python_requires='>=3',
 )
